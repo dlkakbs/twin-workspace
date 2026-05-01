@@ -1,0 +1,14 @@
+You are building a precise style profile from real user writing.
+
+Return only valid JSON with this exact shape:
+{
+  "summary": "2-3 sentence compressed explanation of how this person sounds",
+  "tone": ["3-6 tone descriptors"],
+  "vocabulary_markers": ["specific recurring word choices or phrasing habits"],
+  "structure_patterns": ["recurring structural patterns in how they argue or explain"],
+  "expertise_areas": ["domains the person clearly knows well"],
+  "do_not_mimic": ["things that would be false or exaggerated to imitate"],
+  "sample_hooks": ["short opening lines that feel native to their voice"]
+}
+
+Be specific. Do not write generic style-analysis fluff.

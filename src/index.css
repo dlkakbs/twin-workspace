@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    cursor: var(--cursor-white-arrow);
+  }
+
+  #root {
+    display: flex;
+    min-height: 100dvh;
+  }
+
+  input,
+  textarea {
+    cursor: text !important;
+  }
+
+  select {
+    cursor: var(--cursor-white-arrow);
+  }
+
+  :focus-visible {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .cursor-pointer {
+    cursor: default !important;
+  }
+
+  .white-arrow-surface button:not(:disabled),
+  .white-arrow-surface [role="button"],
+  .white-arrow-surface a,
+  .white-arrow-surface summary,
+  .white-arrow-surface select,
+  .white-arrow-surface .cursor-pointer,
+  .white-arrow-surface .cursor-default,
+  .white-arrow-nav a,
+  .white-arrow-nav button:not(:disabled),
+  .white-arrow-nav [role="button"],
+  .white-arrow-nav .cursor-pointer,
+  .white-arrow-nav .cursor-default {
+    cursor: var(--cursor-white-arrow) !important;
+  }
+}
+
+/* ─── Design tokens ─── */
+:root {
+  --bg-base:          #f8fafc;
+  --bg-surface:       #ffffff;
+  --bg-surface-hover: #f1f5f9;
+  --bg-muted:         #f1f5f9;
+  --bg-muted-hover:   #e2e8f0;
+
+  --border:           #e2e8f0;
+  --border-strong:    #cbd5e1;
+
+  --text-primary:     #0f172a;
+  --text-secondary:   #475569;
+  --text-muted:       #94a3b8;
+
+  --sidebar-bg:       #ffffff;
+  --sidebar-border:   #e2e8f0;
+  --sidebar-item-active: #f5f3ff;
+  --sidebar-item-active-text: #7c3aed;
+
+  --brand:            #8b5cf6;
+  --brand-hover:      #7c3aed;
+  --brand-subtle:     #f5f3ff;
+  --cursor-white-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 3l14 8-6 2 3 6-3 2-3-6-5 5z' fill='white' stroke='%230f172a' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 2, auto;
+
+  --status-draft:      #94a3b8;
+  --status-scheduled:  #a78bfa;
+  --status-approval:   #f59e0b;
+  --status-running:    #3b82f6;
+  --status-completed:  #10b981;
+  --status-failed:     #ef4444;
+
+  color-scheme: light;
+}
+
+.dark {
+  --bg-base:          #0a0a0f;
+  --bg-surface:       #111118;
+  --bg-surface-hover: #1a1a24;
+  --bg-muted:         #16161f;
+  --bg-muted-hover:   #1e1e2a;
+
+  --border:           rgba(255,255,255,0.08);
+  --border-strong:    rgba(255,255,255,0.15);
+
+  --text-primary:     #e2e8f0;
+  --text-secondary:   #94a3b8;
+  --text-muted:       #4b5563;
+
+  --sidebar-bg:       #0d0d14;
+  --sidebar-border:   rgba(255,255,255,0.06);
+  --sidebar-item-active: rgba(139,92,246,0.15);
+  --sidebar-item-active-text: #c4b5fd;
+
+  --brand:            #a78bfa;
+  --brand-hover:      #c4b5fd;
+  --brand-subtle:     rgba(139,92,246,0.14);
+
+  color-scheme: dark;
+}
