@@ -158,15 +158,15 @@ Twin state is stored under:
 
 - `hermes-agent/outputs/twin/profiles/<slug>/profile.json`
 
-Default slug:
+Example default slug:
 
-- `dilek`
+- `my-twin`
 
 The workspace expects a Twin profile to exist before voice, content, or realtime flows can fully work.
 
 Minimum practical setup:
 
-1. set `TWIN_PROFILE_SLUG` in both env files if you want a slug other than `dilek`
+1. choose your own profile slug and set `TWIN_PROFILE_SLUG` in both env files
 2. create the Twin profile JSON under `hermes-agent/outputs/twin/profiles/<slug>/profile.json`
 3. place profile assets such as the photo in `hermes-agent/outputs/twin/profiles/<slug>/assets/`
 4. fill voice/avatar/provider IDs in the profile and env files as needed
