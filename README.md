@@ -142,8 +142,7 @@ executes calls|                       | executes live video/avatar
   | Basic workspace / profile / delegations | `TWIN_PROFILE_SLUG` | Core workspace flows can load without every provider enabled |
   | Content: script/text generation | `OPENAI_API_KEY` | OpenAI is required for generated text flows |
   | Content: audio narration | `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | Needed when Twin should generate spoken audio |
-  | Content: avatar video via HeyGen | `OPENAI_API_KEY`, `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID` or `HEYGEN_AVATAR_GROUP_ID`, `HEYGEN_VOICE_ID` | Use when Twin should generate avatar-
-  based video output |
+  | Content: avatar video via HeyGen | `OPENAI_API_KEY`, `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID` or `HEYGEN_AVATAR_GROUP_ID`, `HEYGEN_VOICE_ID` | Use when Twin should generate avatar-based video output |
   | Outbound voice calling | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`, `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID`, `ELEVENLABS_PHONE_NUMBER_ID` | Powers the Twin telephony runtime
   |
   | Realtime avatar / live video sessions | `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `LIVEAVATAR_API_KEY`, `LIVEAVATAR_AVATAR_ID`, `DEEPGRAM_API_KEY`, `ELEVENLABS_API_KEY` | Powers the Twin
