@@ -4,7 +4,7 @@ Twin Workspace is the control surface for running a real digital twin on top of 
 
 It lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona. The workspace is where you define intent, review state, and manage execution. Hermes owns the runtime and orchestration underneath.
 
-# What is Twin?
+## What is Twin?
 
 Twin is a programmable identity that can:
 
