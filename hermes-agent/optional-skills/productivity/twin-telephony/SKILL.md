@@ -1,12 +1,12 @@
 ---
 name: twin-telephony
-description: Optional telephony runtime for Twin. Owns outbound call provider setup and execution so the core Twin skill stays provider-agnostic.
+description: Optional telephony runtime for Twin. Owns outbound call setup, outbound SMS delivery, and provider execution so the core Twin skill stays provider-agnostic.
 version: 0.1.0
 author: OpenAI
 license: MIT
 metadata:
   hermes:
-    tags: [twin, telephony, elevenlabs, twilio, outbound-calls]
+    tags: [twin, telephony, elevenlabs, twilio, outbound-calls, outbound-sms]
     category: productivity
 ---
 
@@ -14,15 +14,24 @@ metadata:
 
 This optional skill is the target home for Twin telephony runtime code.
 
+Today it is centered on outbound execution:
+
+- outbound voice calls through ElevenLabs ConvAI + Twilio
+- outbound SMS delivery used for Twin invite and follow-up messaging
+- provider diagnostics and runtime helpers shared by the workspace bridge
+
 Scope:
 
 - provider credential diagnostics
 - outbound call runtime selection
+- outbound SMS delivery helpers
 - ElevenLabs ConvAI / Twilio integration
 - future Vapi / Bland adapters
 
 Non-scope:
 
+- inbound call answering
+- inbound SMS handling
 - twin profile setup
 - twin style generation
 - delegation domain models
@@ -35,6 +44,8 @@ Current status:
   owner
 - integrations that need stable Twin state mutation should still enter through
   `skills.twin`
+- inbound capability flags may appear in provider metadata, but Twin does not
+  currently expose a first-class inbound call or inbound messaging workflow here
 
 Helper script:
 
