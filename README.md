@@ -1,222 +1,275 @@
 # Twin Workspace
 
-Twin Workspace is a single-repo Twin control surface for the Hermes-backed architecture used in this project.
+Twin Workspace is a control surface for running your own operational digital twin.
 
-This repo is intentionally split into two layers:
+It works on top of a Hermes-powered architecture and lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona.
 
-- `backend/`, `src/`, `start.sh`: the workspace UI and thin backend facade
-- `hermes-agent/`: the embedded Hermes Twin owner surface
+## What is Twin?
 
-The ownership model is unchanged:
+Twin is a programmable identity that can:
+
+- make outbound voice calls
+- host realtime / video sessions
+- generate content (video, audio, scripts)
+- execute tasks through a delegation system
+
+Everything is modeled as a task and managed through a single workspace.
+
+It is designed to:
+
+- represent you in communication
+- automate interactions
+- maintain a consistent identity across tasks
+  
+## Why it exists
+
+There are interactions that seem simple, but are not always easy to handle in practice.
+
+Things like:
+
+- making quick calls
+- checking availability
+- asking for pricing
+- confirming bookings
+- handling follow-ups
+- having a video conversation
+  
+They require timing, attention, and being in the right headspace.
+So they get delayed, skipped, or handled inefficiently.
+
+These interactions are necessary, but they don’t always require your direct involvement.
+
+Twin takes ownership of this layer — generating what needs to be said, scheduling it at the right time, and executing the interaction on your behalf.
+
+You define the intent once.
+Twin executes it.
+
+## Core idea
 
 - Hermes is the owner
 - Twin Workspace is the control surface
-- telephony and realtime are optional runtime capabilities
-- the workspace backend is a thin adapter, not the canonical domain owner
+- Runtime and execution live inside Hermes
 
-## Repo Layout
+## Architecture
 
 ```text
-.
-├── backend/                     # FastAPI facade / adapter
-├── src/                         # React + Vite operator UI
-├── start.sh                     # starts backend + frontend together
-└── hermes-agent/
-    ├── hermes_constants.py
-    ├── skills/twin/             # canonical Twin owner surface
-    ├── optional-skills/productivity/twin-telephony/
-    └── optional-skills/creative/twin-realtime/
++------------------------------------------------------+
+|                  Twin Workspace                      |
+|         Hermes operator cockpit / control plane      |
+|            React + Vite UI + FastAPI facade          |
++-------------------------+----------------------------+
+                          |
+                          | drives / manages
+                          v
++------------------------------------------------------+
+|                    skills/twin                       |
+|           Twin core skill inside Hermes              |
+|      brain + contract + canonical Twin logic         |
+|  identity, profile, delegations, approvals,          |
+|  call/video/content orchestration, workspace state   |
++-------------------------+----------------------------+
+                          |
+              +-----------+-----------+
+              |                       |
+executes calls|                       | executes live video/avatar
+              v                       v
++---------------------------+   +---------------------------+
+|   twin-telephony runtime  |   |   twin-realtime runtime   |
+| optional Hermes runtime   |   | optional Hermes runtime   |
+| Twilio + ElevenLabs       |   | LiveAvatar + LiveKit/STT  |
++---------------------------+   +---------------------------+
+                              |
+                              v
++------------------------------------------------------+
+|              Hermes-owned Twin outputs               |
+|     profiles / delegations / runs / video_sessions   |
++------------------------------------------------------+
 ```
+ ## Requirements
 
-## Requirements
+  - Node.js 18+
+  - npm
+  - Python 3.11+
 
-- Node.js 18+
-- npm
-- Python 3.11+
+  ## Clone
 
-## 1. Clone This Repo
+  ```bash
+  git clone <PRIVATE_REPO_URL> twin-workspace
+  cd twin-workspace
+  ```
 
-```bash
-git clone <PRIVATE_REPO_URL> twin-workspace
-cd twin-workspace
-```
+  This workspace expects a Hermes-backed Twin surface.
 
-This is the only repo you need to clone for the workspace demo surface.
+  If this repo includes an embedded `hermes-agent/` subtree, you do not need to clone Hermes separately. If it does not, set `HERMES_ROOT` in `backend/.env` to your existing Hermes checkout.
 
-## 2. Hermes Root Path
+  ## Environment
 
-The workspace backend resolves `HERMES_ROOT` from `backend/.env`.
+  Create the backend env file:
 
-In this single-repo layout the default already points at the embedded Hermes subtree:
+  ```bash
+  cp backend/.env.example backend/.env
+  ```
 
-```env
-HERMES_ROOT=../hermes-agent
-```
+  ### Key Backend Values
 
-So in the normal setup you do not need to change it.
+  | Variable | Required | Purpose |
+  |---|---:|---|
+  | `HERMES_ROOT` | Yes | Path to the Hermes checkout or embedded Hermes subtree |
+  | `HERMES_OUTPUTS` | Yes | Hermes Twin outputs root |
+  | `TWIN_OUTPUT_ROOT` | Yes | Twin output root used by the workspace contract |
+  | `TWIN_PROFILE_SLUG` | Yes | Active Twin profile slug |
+  | `HERMES_API_SERVER_URL` | Yes | Hermes API server used for sign-in verification |
+  | `TWIN_SUMMARY_LANGUAGE` | No | Summary/output language for call logging flows |
 
-Override it only if you move the Hermes subtree somewhere else.
+  In the embedded-repo layout, the default is:
 
-## 3. Environment Variables
+  ```env
+  HERMES_ROOT=../hermes-agent
+  ```
 
-There are two env files:
+  Only change it if Hermes lives somewhere else.
 
-- `backend/.env`
-- `hermes-agent/.env`
+  If the repo includes `hermes-agent/.env.example`, also create the Hermes env file:
 
-### Backend env
+  ```bash
+  cp hermes-agent/.env.example hermes-agent/.env
+  ```
 
-```bash
-cp backend/.env.example backend/.env
-```
+  ### Provider Configuration By Flow
 
-Key backend values:
+  | Flow | Required Variables | Notes |
+  |---|---|---|
+  | Basic workspace / profile / delegations | `TWIN_PROFILE_SLUG` | Core workspace flows can load without every provider enabled |
+  | Content: script/text generation | `KIMI_API_KEY` and/or `OPENAI_API_KEY` | At least one LLM provider is required for generated text flows |
+  | Content: audio narration | `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | Needed when Twin should generate spoken audio |
+  | Content: avatar video via HeyGen | `KIMI_API_KEY` and/or `OPENAI_API_KEY`, `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID` or `HEYGEN_AVATAR_GROUP_ID`, `HEYGEN_VOICE_ID` | Use when Twin should generate avatar-
+  based video output |
+  | Outbound voice calling | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`, `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID`, `ELEVENLABS_PHONE_NUMBER_ID` | Powers the Twin telephony runtime
+  |
+  | Realtime avatar / live video sessions | `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `LIVEAVATAR_API_KEY`, `LIVEAVATAR_AVATAR_ID`, `DEEPGRAM_API_KEY`, `ELEVENLABS_API_KEY` | Powers the Twin
+  realtime runtime |
+  | External guest video invites | `TWIN_PUBLIC_BASE_URL` | Must be a public HTTPS URL, not localhost |
 
-- `HERMES_ROOT`
-- `HERMES_OUTPUTS`
-- `TWIN_OUTPUT_ROOT`
-- `TWIN_PROFILE_SLUG`
-- `HERMES_API_SERVER_URL`
+  ### Common Profile-Linked IDs
 
-### Hermes env
+  Some provider IDs are typically used both in runtime configuration and in the active Twin profile.
 
-```bash
-cp hermes-agent/.env.example hermes-agent/.env
-```
+  | Value | Used For |
+  |---|---|
+  | `ELEVENLABS_VOICE_ID` | Audio/content voice identity |
+  | `HEYGEN_AVATAR_ID` | Avatar-based video generation |
+  | `HEYGEN_AVATAR_GROUP_ID` | Avatar group selection |
+  | `HEYGEN_VOICE_ID` | HeyGen voice selection |
+  | `LIVEAVATAR_AVATAR_ID` | Realtime avatar execution |
 
-Provider env groups:
+  ## Public Base URL For Video Sessions
 
-- `KIMI_API_KEY`, `KIMI_BASE_URL`
-- `OPENAI_API_KEY`, `OPENAI_BASE_URL`
-- `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`, `ELEVENLABS_AGENT_ID`, `ELEVENLABS_PHONE_NUMBER_ID`
-- `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`
-- `HEYGEN_API_KEY`
-- `LIVEAVATAR_API_KEY`, `LIVEAVATAR_AVATAR_ID`
-- `DEEPGRAM_API_KEY`
-- `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`
-- `TWIN_PUBLIC_BASE_URL`
+  If you want external guests to join Twin video sessions, the workspace must be reachable through a public URL.
 
-You do not need every provider for every flow:
+  Set:
 
-- content-only: Kimi/OpenAI plus ElevenLabs if you want audio
-- outbound voice: ElevenLabs + Twilio
-- avatar video: HeyGen and/or LiveAvatar depending on the path you use
-- realtime video: Deepgram + ElevenLabs + LiveKit + LiveAvatar
+  ```env
+  TWIN_PUBLIC_BASE_URL=https://your-public-url.example.com
+  ```
 
-## 4. Install And Start Workspace
+  This base URL is used when Twin generates external video invite links.
 
-### Frontend
+  For local development, this usually means exposing the workspace through a tunnel such as:
 
-```bash
-npm install
-```
+  - ngrok
+  - Cloudflare Tunnel
+  - another HTTPS public tunnel
 
-### Backend
+  Example:
 
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cd ..
-```
+  ```env
+  TWIN_PUBLIC_BASE_URL=https://my-workspace-tunnel.ngrok-free.app
+  ```
 
-### Embedded Hermes Twin surface
+  Notes:
 
-The embedded Hermes subtree is imported directly from source by the workspace backend.
+  - localhost URLs will not work for external guest invites
+  - the public URL should point to the workspace surface that serves the join flow
+  - local self-test flows do not require a public URL
 
-Install the minimal Twin Python dependencies:
+  ## Install
 
-```bash
-cd hermes-agent
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements-twin.txt
-cd ..
-```
+  Install frontend dependencies:
 
-Create the output directory once:
+  ```bash
+  npm install
+  ```
 
-```bash
-mkdir -p hermes-agent/outputs/twin
-```
+  Create one Python environment for the workspace backend and Hermes Twin surface together:
 
-### Start both servers
+  ```bash
+  python3.11 -m venv .venv
+  source .venv/bin/activate
+  pip install -r backend/requirements.txt
+  pip install -r hermes-agent/requirements-twin.txt
+  ```
 
-```bash
-bash ./start.sh
-```
+  Create the Twin outputs root once:
 
-This starts:
+  ```bash
+  mkdir -p hermes-agent/outputs/twin
+  ```
 
-- frontend: `http://localhost:5175`
-- backend: `http://localhost:8000`
+  ## Start
 
-## 5. Prepare A Twin Profile
+  Start both servers from the same active Python environment:
 
-Twin state is stored under:
+  ```bash
+  source .venv/bin/activate
+  bash ./start.sh
+  ```
 
-- `hermes-agent/outputs/twin/profiles/<slug>/profile.json`
+  This starts:
 
-Example default slug:
+  - frontend: `http://localhost:5175`
+  - backend: `http://localhost:8000`
 
-- `my-twin`
+  ## Twin Profile
 
-The workspace expects a Twin profile to exist before voice, content, or realtime flows can fully work.
+  Twin state is resolved through the Hermes workspace contract and stored under the Twin outputs root.
 
-Minimum practical setup:
+  At minimum, set a profile slug and ensure a profile exists for it.
 
-1. choose your own profile slug and set `TWIN_PROFILE_SLUG` in both env files
-2. create the Twin profile JSON under `hermes-agent/outputs/twin/profiles/<slug>/profile.json`
-3. place profile assets such as the photo in `hermes-agent/outputs/twin/profiles/<slug>/assets/`
-4. fill voice/avatar/provider IDs in the profile and env files as needed
+  Typical location:
 
-The embedded Hermes owner surface lives here:
+  - `hermes-agent/outputs/twin/profiles/<slug>/profile.json`
 
-- `hermes-agent/skills/twin/`
-- `hermes-agent/skills/twin/WORKSPACE_INTEGRATION.md`
-- `hermes-agent/skills/twin/workspace_contract.py`
-- `hermes-agent/skills/twin/workspace_api.py`
-- `hermes-agent/skills/twin/workspace_commands.py`
+  Set the same `TWIN_PROFILE_SLUG` in your env configuration and use that profile for workspace flows.
 
-## 6. Telephony And Realtime Are Optional
+  ## Runtime Capabilities
 
-Not every setup needs live calling or realtime video.
+  Twin core lives in Hermes under:
 
-Optional runtime surfaces included in this repo:
+  - `hermes-agent/skills/twin/`
 
-- `hermes-agent/optional-skills/productivity/twin-telephony/`
-- `hermes-agent/optional-skills/creative/twin-realtime/`
+  Runtime surfaces live under:
 
-Use them when you need:
+  - `hermes-agent/optional-skills/productivity/twin-telephony/`
+  - `hermes-agent/optional-skills/creative/twin-realtime/`
 
-- Twilio + ElevenLabs outbound calling
-- LiveAvatar / LiveKit / Pipecat-style realtime sessions
+  These are required for live calling and realtime/avatar execution.
 
-If you only want the workspace UI and non-realtime content flows, you can leave those provider env values unset.
+  ## What Lives Where
 
-## What Lives Where
+  Hermes-owned Twin core:
 
-Hermes-owned surface:
+  - `hermes-agent/skills/twin/`
 
-- `hermes-agent/skills/twin/`
-- `hermes-agent/skills/twin/_runtime/`
+  Workspace control surface:
 
-Workspace-owned surface:
+  - `src/`
+  - `backend/routes/*`
+  - `backend/twin_bridge.py`
+  - `backend/delegations_facade.py`
 
-- `backend/routes/*`
-- `backend/twin_bridge.py`
-- `backend/delegations_facade.py`
-- `src/`
+  ## Notes
 
-Compatibility shims inside workspace:
+  - This is not a standalone frontend-only app.
+  - The workspace backend depends on the Hermes Twin surface.
+  - Start the stack with the Python environment activated so backend and Hermes imports resolve in the same runtime.
 
-- `backend/content_run_worker.py`
-- `backend/scheduled_call_logger.py`
-- `backend/pipecat_worker.py`
-
-## Notes
-
-- This repo is not a standalone frontend-only product.
-- The workspace backend depends on the embedded Hermes Twin surface.
-- `outputs/`, `.env`, local logs, and generated media are intentionally excluded from git.
