@@ -1,8 +1,8 @@
 # Twin Workspace
 
-Twin Workspace is a control surface for running your own operational digital twin.
+Twin Workspace is the control surface for running your own digital twin on top of Hermes.
 
-It works on top of a Hermes-powered architecture and lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona.
+It lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona.
 
 ## What is Twin?
 
@@ -10,7 +10,7 @@ Twin is a programmable identity that can:
 
 - make outbound voice calls
 - host realtime / video sessions
-- generate content (video, audio, scripts)
+- generate content across video, audio, and scripts
 - execute tasks through a delegation system
 
 Everything is modeled as a task and managed through a single workspace.
@@ -18,12 +18,12 @@ Everything is modeled as a task and managed through a single workspace.
 It is designed to:
 
 - represent you in communication
-- automate interactions
+- automate repetitive interactions
 - maintain a consistent identity across tasks
   
 ## Why it exists
 
-There are interactions that seem simple, but are not always easy to handle in practice.
+Many interactions are simple in theory but costly in practice.
 
 Things like:
 
@@ -34,12 +34,11 @@ Things like:
 - handling follow-ups
 - having a video conversation
   
-They require timing, attention, and being in the right headspace.
-So they get delayed, skipped, or handled inefficiently.
+They require timing, attention, and context. Because of that, they often get delayed, skipped, or handled inefficiently.
 
 These interactions are necessary, but they don’t always require your direct involvement.
 
-Twin takes ownership of this layer — generating what needs to be said, scheduling it at the right time, and executing the interaction on your behalf.
+Twin is built to take ownership of this layer: generating what needs to be said, scheduling the interaction at the right time, and executing it on your behalf.
 
 You define the intent once.
 Twin executes it.
