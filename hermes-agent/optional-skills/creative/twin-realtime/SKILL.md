@@ -21,20 +21,6 @@ Scope:
 - LiveKit transport planning
 - Pipecat worker orchestration
 
-Non-scope:
-
-- twin profile setup
-- delegation domain models
-- workspace dashboard ownership
-
-Current status:
-
-- phase-1 extraction in progress from `twin-workspace`
-- this skill is a user-facing execution wrapper, not the canonical Twin domain
-  owner
-- integrations that need stable Twin state mutation should still enter through
-  `skills.twin`
-
 Helper script:
 
 - `scripts/twin_realtime.py`
