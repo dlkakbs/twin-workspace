@@ -18,7 +18,7 @@ Everything is modeled as a task and managed through a single workspace.
 It is designed to:
 
 - represent you in communication
-- automate repetitive interactions
+- automate some daily interactions
 - maintain a consistent identity across tasks
   
 ## Why it exists
