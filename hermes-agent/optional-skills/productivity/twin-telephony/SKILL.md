@@ -32,20 +32,6 @@ Non-scope:
 
 - inbound call answering
 - inbound SMS handling
-- twin profile setup
-- twin style generation
-- delegation domain models
-- workspace UI
-
-Current status:
-
-- phase-1 extraction in progress from `skills/twin`
-- this skill is a user-facing execution wrapper, not the canonical Twin domain
-  owner
-- integrations that need stable Twin state mutation should still enter through
-  `skills.twin`
-- inbound capability flags may appear in provider metadata, but Twin does not
-  currently expose a first-class inbound call or inbound messaging workflow here
 
 Helper script:
 
