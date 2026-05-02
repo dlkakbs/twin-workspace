@@ -1,26 +1,26 @@
-# Twin Workspace
+### Twin Workspace
 
-Twin Workspace is the control surface for running your own digital twin on top of Hermes.
+Twin Workspace is the control surface for running a real digital twin on top of Hermes.
 
-It lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona.
+It lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona. The workspace is where you define intent, review state, and manage execution. Hermes owns the runtime and orchestration underneath.
 
-## What is Twin?
+# What is Twin?
 
 Twin is a programmable identity that can:
 
 - make outbound voice calls
-- host realtime / video sessions
+- host realtime and video sessions
 - generate content across video, audio, and scripts
-- execute tasks through a delegation system
+- execute tasks through a delegation model
 
 Everything is modeled as a task and managed through a single workspace.
 
-It is designed to:
+Twin is designed to:
 
 - represent you in communication
-- automate some daily interactions
-- maintain a consistent identity across tasks
-  
+- automate recurring real-world interactions
+- maintain a consistent identity across tasks and channels
+
 ## Why it exists
 
 Many interactions are simple in theory but costly in practice.
@@ -32,22 +32,22 @@ Things like:
 - asking for pricing
 - confirming bookings
 - handling follow-ups
-- having a video conversation
-  
-They require timing, attention, and being in the right headspace. Because of that, they often get delayed, skipped, or handled inefficiently.
+- joining a video conversation
 
-These interactions are necessary, but they don’t always require your direct involvement.
+These tasks require timing, attention, and the right headspace. Because of that, they often get delayed, skipped, or handled inefficiently.
+
+They matter, but they do not always require your direct involvement.
 
 Twin is built to take ownership of this layer: generating what needs to be said, scheduling the interaction at the right time, and executing it on your behalf.
 
-You define the intent once.
-Twin executes it.
+You define the intent once. Twin executes it.
 
 ## Core idea
 
-- Hermes is the owner
+- Hermes is the owner and orchestration layer
 - Twin Workspace is the control surface
-- Runtime and execution live inside Hermes
+- Twin runtime and execution live inside Hermes
+- profile, delegation, content, call, and session state stay Hermes-owned
 
 ## Architecture
 
