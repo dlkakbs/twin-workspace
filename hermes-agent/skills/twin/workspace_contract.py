@@ -30,7 +30,7 @@ class TwinWorkspaceContract:
             or os.environ.get("TWIN_OUTPUT_ROOT", resolved_project_root / "outputs" / "twin")
         ).expanduser().resolve()
         resolved_env_path = Path(env_path or (get_hermes_home() / ".env")).expanduser().resolve()
-        resolved_profile_slug = profile_slug or os.environ.get("TWIN_PROFILE_SLUG", "dilek")
+        resolved_profile_slug = profile_slug or os.environ.get("TWIN_PROFILE_SLUG", "my-twin")
         return cls(
             project_root=resolved_project_root,
             output_root=resolved_output_root,

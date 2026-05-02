@@ -16,8 +16,6 @@ import type {
 } from '../lib/api'
 
 const EMPTY_CREDS: CredentialSettings = {
-  KIMI_API_KEY: '',
-  KIMI_BASE_URL: 'https://api.moonshot.ai/v1',
   OPENAI_API_KEY: '',
   OPENAI_BASE_URL: 'https://api.openai.com/v1',
   TWIN_PUBLIC_BASE_URL: '',
@@ -666,10 +664,9 @@ function IdentityWorkspaceView({ mode }: { mode: 'identity' | 'voice-video' | 'i
 
   async function handleIntegrationsSave() {
     await api.settings.update({
-      KIMI_API_KEY: creds.KIMI_API_KEY,
-      KIMI_BASE_URL: creds.KIMI_BASE_URL,
       OPENAI_API_KEY: creds.OPENAI_API_KEY,
       OPENAI_BASE_URL: creds.OPENAI_BASE_URL,
+      TWIN_PUBLIC_BASE_URL: creds.TWIN_PUBLIC_BASE_URL,
       ELEVENLABS_API_KEY: creds.ELEVENLABS_API_KEY,
       DEEPGRAM_API_KEY: creds.DEEPGRAM_API_KEY,
       LIVEKIT_URL: creds.LIVEKIT_URL,
@@ -689,10 +686,9 @@ function IdentityWorkspaceView({ mode }: { mode: 'identity' | 'voice-video' | 'i
   function handleIntegrationsCancel() {
     setCreds((prev) => ({
       ...prev,
-      KIMI_API_KEY: initialCreds.KIMI_API_KEY,
-      KIMI_BASE_URL: initialCreds.KIMI_BASE_URL,
       OPENAI_API_KEY: initialCreds.OPENAI_API_KEY,
       OPENAI_BASE_URL: initialCreds.OPENAI_BASE_URL,
+      TWIN_PUBLIC_BASE_URL: initialCreds.TWIN_PUBLIC_BASE_URL,
       ELEVENLABS_API_KEY: initialCreds.ELEVENLABS_API_KEY,
       DEEPGRAM_API_KEY: initialCreds.DEEPGRAM_API_KEY,
       LIVEKIT_URL: initialCreds.LIVEKIT_URL,
@@ -1246,36 +1242,6 @@ function IdentityWorkspaceView({ mode }: { mode: 'identity' | 'voice-video' | 'i
           ) : (
             <div className="space-y-5">
               <div>
-                <p className="mb-2 text-xs font-medium text-[var(--text-secondary)]">Kimi</p>
-                <div className="space-y-3">
-                  <div className="relative">
-                    <Input
-                      label="API Key"
-                      type={showSecrets.KIMI_API_KEY ? 'text' : 'password'}
-                      value={creds.KIMI_API_KEY}
-                      disabled={!isEditingIntegrations}
-                      onChange={e => setCreds(p => ({ ...p, KIMI_API_KEY: e.target.value }))}
-                      placeholder="••••••••"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => toggleShow('KIMI_API_KEY')}
-                      className="absolute right-3 top-7 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                    >
-                      {showSecrets.KIMI_API_KEY ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-                    </button>
-                  </div>
-                  <Input
-                    label="Base URL"
-                    value={creds.KIMI_BASE_URL}
-                    disabled={!isEditingIntegrations}
-                    onChange={e => setCreds(p => ({ ...p, KIMI_BASE_URL: e.target.value }))}
-                    placeholder="https://api.moonshot.ai/v1"
-                  />
-                </div>
-              </div>
-
-              <div>
                 <p className="mb-2 text-xs font-medium text-[var(--text-secondary)]">OpenAI</p>
                 <div className="space-y-3">
                   <div className="relative">
@@ -1301,6 +1267,13 @@ function IdentityWorkspaceView({ mode }: { mode: 'identity' | 'voice-video' | 'i
                     disabled={!isEditingIntegrations}
                     onChange={e => setCreds(p => ({ ...p, OPENAI_BASE_URL: e.target.value }))}
                     placeholder="https://api.openai.com/v1"
+                  />
+                  <Input
+                    label="Public Workspace URL"
+                    value={creds.TWIN_PUBLIC_BASE_URL}
+                    disabled={!isEditingIntegrations}
+                    onChange={e => setCreds(p => ({ ...p, TWIN_PUBLIC_BASE_URL: e.target.value }))}
+                    placeholder="https://your-public-url.example.com"
                   />
                 </div>
               </div>
@@ -1534,7 +1507,7 @@ function IdentityWorkspaceView({ mode }: { mode: 'identity' | 'voice-video' | 'i
                               const isActive = line.phone_number_id === creds.ELEVENLABS_PHONE_NUMBER_ID
                               const isSelected = isActive
                               const displayTitle = line.label && normalizePhone(line.label) !== normalizePhone(line.phone_number)
-                                ? normalizeOutboundLabel(line.label).replace(/^(?:Dilek\s+)?/i, '')
+                                ? normalizeOutboundLabel(line.label)
                                 : showSecrets.VERIFIED_CALLER_IDS
                                   ? line.phone_number
                                   : maskPhone(line.phone_number)

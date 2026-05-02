@@ -9,10 +9,9 @@ from workspace_paths import WORKSPACE_CONTRACT
 HERMES_HOME_DIR = Path(os.environ.get("HERMES_HOME", str(Path.home() / ".hermes"))).expanduser()
 HERMES_HOME_ENV = HERMES_HOME_DIR / ".env"
 SETTINGS_ENV_KEYS: tuple[str, ...] = (
-    "KIMI_API_KEY",
-    "KIMI_BASE_URL",
     "OPENAI_API_KEY",
     "OPENAI_BASE_URL",
+    "TWIN_PUBLIC_BASE_URL",
     "ELEVENLABS_API_KEY",
     "ELEVENLABS_VOICE_ID",
     "HEYGEN_API_KEY",

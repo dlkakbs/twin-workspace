@@ -93,7 +93,7 @@ interface AppState {
 }
 
 const defaultProfile: TwinProfile = {
-  name: 'Dilek',
+  name: 'Your Twin',
   avatarProvider: 'heygen',
   heygenAvatarId: '',
   heygenAvatarGroupId: '',

@@ -22,7 +22,7 @@ from .models import (
 )
 from .openai_client import OpenAITwinClient
 from .profile_builder import load_writing_corpus
-from .providers import DIDAvatarProvider, HeyGenAvatarProvider
+from .providers import HeyGenAvatarProvider
 from .storage import TwinStorage, slugify, utc_timestamp
 from .telephony_runtime import ElevenLabsConvAIRuntime
 
@@ -248,11 +248,9 @@ class TwinSkill:
         self.telephony_runtime: TwinTelephonyRuntime = ElevenLabsConvAIRuntime()
 
     def _resolve_avatar_provider(self):
-        if self.settings.avatar_provider == "heygen":
-            return HeyGenAvatarProvider(self.settings)
-        if self.settings.avatar_provider == "did":
-            return DIDAvatarProvider(self.settings)
-        raise ValueError(f"Unsupported avatar provider: {self.settings.avatar_provider}")
+        if self.settings.avatar_provider != "heygen":
+            raise ValueError(f"Unsupported avatar provider: {self.settings.avatar_provider}")
+        return HeyGenAvatarProvider(self.settings)
 
     def setup_profile(
         self,
@@ -644,7 +642,7 @@ class TwinSkill:
             f"{language_instruction}\n"
             f"Kimlik ve ton:\n"
             f"- Net, sakin, kısa, kontrollü ve doğal ol.\n"
-            f"- Dilek'in yazı/stil özeti: {style.summary}\n"
+            f"- {twin.name} için yazı/stil özeti: {style.summary}\n"
             f"- Ton işaretleri: {', '.join(style.tone) or 'net'}\n"
             f"- Gereksiz uzun konuşma yapma.\n"
             f"- Aynı anda tek bir soru sor.\n"
@@ -675,7 +673,7 @@ class TwinSkill:
             f"- 'Ödeme konusunda bilgi almak istiyorum' deme; doğru ifade 'yaklaşık toplam tutarı öğrenmek istiyorum' olsun.\n"
             f"- Karşı taraftan 'beni neden aradın, ne yapmamı istiyorsun' gibi bir görev alma moduna kayma.\n"
             f"- Sen zaten görüşmenin nedenini biliyorsun; doğal biçimde başla ve konuşmayı o hedefte tut.\n"
-            f"- Meta seviyede 'ben Dilek'in uzantısıyım' gibi ifadeler kullanma.\n"
+            f"- Meta seviyede 'ben {twin.name}'in uzantısıyım' gibi ifadeler kullanma.\n"
             f"- Karşı tarafın söylediği bir ifadeden tam emin değilsen, duyduğunu kesin doğruymuş gibi varsayma. "
             f"Kibarca 'Tam anlayamadım, tekrar edebilir misiniz?' veya 'Tam olarak neyi kastediyorsunuz?' diye sor.\n"
             f"- Belirsiz veya kulağa garip gelen bir ifadeyi tek olası anlamla sabitleyip üstüne ısrar etme. Önce doğrula, sonra devam et.\n"

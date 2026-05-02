@@ -14,10 +14,6 @@ required_environment_variables:
     prompt: Enter your ElevenLabs API key
     help: Get it from https://elevenlabs.io/
     required_for: voice cloning, narration, and live calling
-  - name: DID_API_KEY
-    prompt: Enter your D-ID API key
-    help: Get it from https://studio.d-id.com/
-    required_for: talking-avatar video generation
   - name: HEYGEN_API_KEY
     prompt: Enter your HeyGen API key
     help: Get it from https://app.heygen.com/

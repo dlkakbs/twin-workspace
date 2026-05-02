@@ -433,8 +433,6 @@ export interface ProfileUpdate {
 }
 
 export interface CredentialSettings {
-  KIMI_API_KEY: string
-  KIMI_BASE_URL: string
   OPENAI_API_KEY: string
   OPENAI_BASE_URL: string
   TWIN_PUBLIC_BASE_URL: string

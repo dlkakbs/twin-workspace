@@ -15,7 +15,7 @@ from .liveavatar import LiveAvatarClient
 def build_runner_env() -> dict[str, str]:
     env = merged_runtime_env()
     env.setdefault("PIPECAT_STT_PROVIDER", "deepgram")
-    env.setdefault("PIPECAT_LLM_PROVIDER", "kimi")
+    env.setdefault("PIPECAT_LLM_PROVIDER", "openai")
     env.setdefault("PIPECAT_TTS_PROVIDER", "elevenlabs")
     return env
 
@@ -94,4 +94,3 @@ def build_runner_plan(*, session_payload: dict[str, Any], session_file_path: str
         ),
         "note": "Worker now has real Pipecat service wiring. Remaining work is connecting this plan to a real LiveAvatar session lifecycle.",
     }
-

@@ -21,10 +21,9 @@ def _update_profile_voice_id(voice_id: str) -> None:
 
 
 class CredentialsUpdate(BaseModel):
-    KIMI_API_KEY: str | None = None
-    KIMI_BASE_URL: str | None = None
     OPENAI_API_KEY: str | None = None
     OPENAI_BASE_URL: str | None = None
+    TWIN_PUBLIC_BASE_URL: str | None = None
     ELEVENLABS_API_KEY: str | None = None
     ELEVENLABS_VOICE_ID: str | None = None
     ELEVENLABS_AGENT_ID: str | None = None
@@ -52,8 +51,6 @@ def get_settings():
     merged = read_env_file(HERMES_HOME_ENV)
     return {
         "ELEVENLABS_API_KEY": merged.get("ELEVENLABS_API_KEY", ""),
-        "KIMI_API_KEY": merged.get("KIMI_API_KEY", ""),
-        "KIMI_BASE_URL": merged.get("KIMI_BASE_URL", "https://api.moonshot.ai/v1"),
         "OPENAI_API_KEY": merged.get("OPENAI_API_KEY", ""),
         "OPENAI_BASE_URL": merged.get("OPENAI_BASE_URL", "https://api.openai.com/v1"),
         "TWIN_PUBLIC_BASE_URL": merged.get("TWIN_PUBLIC_BASE_URL", ""),

@@ -204,7 +204,7 @@ def _common_parser_defaults(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--project-root", default=str(project_root))
     parser.add_argument("--output-root", default=str(_default_output_root(project_root)))
     parser.add_argument("--env-path", default=str(_default_env_path()))
-    parser.add_argument("--profile-slug", default=os.environ.get("TWIN_PROFILE_SLUG", "dilek"))
+    parser.add_argument("--profile-slug", default=os.environ.get("TWIN_PROFILE_SLUG", "my-twin"))
 
 
 def schedule_delegation_cron_job(
