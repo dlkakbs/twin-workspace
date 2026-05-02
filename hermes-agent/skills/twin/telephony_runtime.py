@@ -20,10 +20,10 @@ class ElevenLabsConvAIRuntime(TwinTelephonyRuntime):
         self.llm_mode = os.environ.get("TWIN_TELEPHONY_LLM_MODE", "native").strip().lower() or "native"
         self.native_llm = os.environ.get("TWIN_TELEPHONY_LLM", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
         self.llm_temperature = self._read_float_env("TWIN_TELEPHONY_LLM_TEMPERATURE", 0.0)
-        self.custom_llm_url = os.environ.get("TWIN_TELEPHONY_CUSTOM_LLM_URL", os.environ.get("KIMI_BASE_URL", "")).strip()
+        self.custom_llm_url = os.environ.get("TWIN_TELEPHONY_CUSTOM_LLM_URL", os.environ.get("OPENAI_BASE_URL", "")).strip()
         self.custom_llm_model_id = os.environ.get(
             "TWIN_TELEPHONY_CUSTOM_LLM_MODEL_ID",
-            os.environ.get("TWIN_KIMI_GENERATION_MODEL", ""),
+            os.environ.get("TWIN_OPENAI_GENERATION_MODEL", ""),
         ).strip()
         self.custom_llm_secret_id = os.environ.get("TWIN_TELEPHONY_CUSTOM_LLM_SECRET_ID", "").strip()
         self.custom_llm_headers = self._read_json_env("TWIN_TELEPHONY_CUSTOM_LLM_HEADERS")
@@ -49,7 +49,7 @@ class ElevenLabsConvAIRuntime(TwinTelephonyRuntime):
                 raise RuntimeError(
                     "Custom telephony LLM is enabled but missing required env vars: "
                     + ", ".join(missing)
-                    + ". Create an ElevenLabs Custom LLM secret for the Kimi API key and set its secret_id here."
+                    + ". Create an ElevenLabs Custom LLM secret for the OpenAI API key and set its secret_id here."
                 )
 
     def run_outbound_call(

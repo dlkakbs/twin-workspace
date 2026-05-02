@@ -183,13 +183,11 @@ class TwinRealtimeWorkspaceAPI:
 
     def _required_env_status(self) -> dict[str, str]:
         env = self.runtime_env_loader()
-        llm_provider = str(env.get("TWIN_REALTIME_LLM_PROVIDER") or "openai").strip().lower()
-        llm_env_key = "OPENAI_API_KEY" if llm_provider == "openai" else "KIMI_API_KEY"
         return {
             "LIVEAVATAR_API_KEY": "configured" if env.get("LIVEAVATAR_API_KEY") else "missing",
             "LIVEAVATAR_AVATAR_ID": "configured" if env.get("LIVEAVATAR_AVATAR_ID") else "missing",
             "DEEPGRAM_API_KEY": "configured" if env.get("DEEPGRAM_API_KEY") else "missing",
-            llm_env_key: "configured" if env.get(llm_env_key) else "missing",
+            "OPENAI_API_KEY": "configured" if env.get("OPENAI_API_KEY") else "missing",
             "ELEVENLABS_API_KEY": "configured" if env.get("ELEVENLABS_API_KEY") else "missing",
             "ELEVENLABS_VOICE_ID": "configured" if (env.get("ELEVENLABS_VOICE_ID") or self._profile_payload().get("voice_id")) else "missing",
         }

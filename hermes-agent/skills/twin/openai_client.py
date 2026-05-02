@@ -14,14 +14,14 @@ def _read_prompt(prompt_name: str) -> str:
     return prompt_path.read_text(encoding="utf-8").strip()
 
 
-class KimiTwinClient:
+class OpenAITwinClient:
     def __init__(self, settings: TwinSettings) -> None:
         self.settings = settings
-        self.client = OpenAI(api_key=settings.kimi_api_key, base_url=settings.kimi_base_url)
+        self.client = OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url)
 
     def build_style_profile(self, name: str, corpus: str) -> StyleProfile:
         response = self.client.chat.completions.create(
-            model=self.settings.kimi_profile_model,
+            model=self.settings.openai_profile_model,
             temperature=0.2,
             response_format={"type": "json_object"},
             messages=[
@@ -53,7 +53,7 @@ class KimiTwinClient:
             "script": "social_post.txt",
         }.get(normalized_format, "podcast_script.txt")
         response = self.client.chat.completions.create(
-            model=self.settings.kimi_generation_model,
+            model=self.settings.openai_generation_model,
             temperature=0.7,
             messages=[
                 {"role": "system", "content": _read_prompt(prompt_file)},

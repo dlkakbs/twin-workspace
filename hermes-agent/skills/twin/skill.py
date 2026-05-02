@@ -12,7 +12,6 @@ from .config import load_twin_settings
 from .elevenlabs_client import ElevenLabsTwinClient
 from .heygen_cli import HeyGenCLIClient
 from .interfaces import TwinTelephonyRuntime
-from .kimi_client import KimiTwinClient
 from .models import (
     CallRecord,
     DelegationAuthority,
@@ -21,6 +20,7 @@ from .models import (
     GenerationResult,
     TwinProfile,
 )
+from .openai_client import OpenAITwinClient
 from .profile_builder import load_writing_corpus
 from .providers import DIDAvatarProvider, HeyGenAvatarProvider
 from .storage import TwinStorage, slugify, utc_timestamp
@@ -242,7 +242,7 @@ class TwinSkill:
         self.settings = load_twin_settings(self.project_root)
         self.storage = TwinStorage(self.settings.output_root)
         self.storage.ensure()
-        self.kimi = KimiTwinClient(self.settings)
+        self.openai = OpenAITwinClient(self.settings)
         self.elevenlabs = ElevenLabsTwinClient(self.settings)
         self.heygen = HeyGenCLIClient(self.settings)
         self.telephony_runtime: TwinTelephonyRuntime = ElevenLabsConvAIRuntime()
@@ -271,7 +271,7 @@ class TwinSkill:
         documents, corpus = load_writing_corpus(writing_sample_paths)
         for sample_path in writing_sample_paths:
             self.storage.copy_asset(sample_path, assets_dir)
-        style_profile = self.kimi.build_style_profile(name=name, corpus=corpus)
+        style_profile = self.openai.build_style_profile(name=name, corpus=corpus)
         voice_id = self.elevenlabs.clone_voice(name=name, sample_path=voice_copy) if clone_voice else None
         heygen_voice_id = None
         heygen_avatar_group_id = None
@@ -322,7 +322,7 @@ class TwinSkill:
         if source_script_path:
             script = source_script_path.read_text(encoding="utf-8").strip()
         else:
-            script = self.kimi.generate_script(twin=twin, brief=brief, output_format=output_format)
+            script = self.openai.generate_script(twin=twin, brief=brief, output_format=output_format)
         script_path = run_dir / "script.txt"
         script_path.write_text(script, encoding="utf-8")
 

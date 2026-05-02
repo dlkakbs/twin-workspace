@@ -7,7 +7,7 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class TwinSettings:
-    kimi_api_key: str
+    openai_api_key: str
     elevenlabs_api_key: str
     did_api_key: str | None
     heygen_api_key: str | None
@@ -17,9 +17,9 @@ class TwinSettings:
     heygen_api_base_url: str
     heygen_upload_base_url: str
     heygen_cli_path: str
-    kimi_base_url: str
-    kimi_profile_model: str
-    kimi_generation_model: str
+    openai_base_url: str
+    openai_profile_model: str
+    openai_generation_model: str
     elevenlabs_base_url: str
     elevenlabs_voice_model: str
     elevenlabs_tts_model: str
@@ -32,7 +32,7 @@ class TwinSettings:
 def load_twin_settings(project_root: Path) -> TwinSettings:
     output_root = Path(os.environ.get("TWIN_OUTPUT_ROOT", project_root / "outputs" / "twin")).resolve()
     return TwinSettings(
-        kimi_api_key=os.environ["KIMI_API_KEY"],
+        openai_api_key=os.environ["OPENAI_API_KEY"],
         elevenlabs_api_key=os.environ["ELEVENLABS_API_KEY"],
         did_api_key=os.environ.get("DID_API_KEY"),
         heygen_api_key=os.environ.get("HEYGEN_API_KEY"),
@@ -42,9 +42,9 @@ def load_twin_settings(project_root: Path) -> TwinSettings:
         heygen_api_base_url=os.environ.get("HEYGEN_API_BASE_URL", "https://api.heygen.com"),
         heygen_upload_base_url=os.environ.get("HEYGEN_UPLOAD_BASE_URL", "https://upload.heygen.com"),
         heygen_cli_path=os.environ.get("HEYGEN_CLI_PATH", str(Path.home() / ".local" / "bin" / "heygen")),
-        kimi_base_url=os.environ.get("KIMI_BASE_URL", "https://api.moonshot.ai/v1"),
-        kimi_profile_model=os.environ.get("TWIN_KIMI_PROFILE_MODEL", "moonshot-v1-128k"),
-        kimi_generation_model=os.environ.get("TWIN_KIMI_GENERATION_MODEL", "moonshot-v1-128k"),
+        openai_base_url=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"),
+        openai_profile_model=os.environ.get("TWIN_OPENAI_PROFILE_MODEL", "gpt-4.1-mini"),
+        openai_generation_model=os.environ.get("TWIN_OPENAI_GENERATION_MODEL", "gpt-4.1-mini"),
         elevenlabs_base_url=os.environ.get("ELEVENLABS_BASE_URL", "https://api.elevenlabs.io/v1"),
         elevenlabs_voice_model=os.environ.get("TWIN_ELEVENLABS_VOICE_MODEL", "eleven_multilingual_sts_v2"),
         elevenlabs_tts_model=os.environ.get("TWIN_ELEVENLABS_TTS_MODEL", "eleven_multilingual_v2"),

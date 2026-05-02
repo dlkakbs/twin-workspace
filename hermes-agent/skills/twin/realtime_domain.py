@@ -83,8 +83,6 @@ def build_session_payload(
     workspace_notes: list[str],
     created_at: str,
 ) -> dict[str, Any]:
-    llm_env_key = "OPENAI_API_KEY" if "OPENAI_API_KEY" in env_status else "KIMI_API_KEY"
-    llm_provider = "openai" if llm_env_key == "OPENAI_API_KEY" else "kimi"
     return {
         "video_session_id": video_session_id,
         "title": title,
@@ -97,7 +95,7 @@ def build_session_payload(
             "liveavatar": "pending",
             "pipecat": "pending",
             "deepgram": env_status["DEEPGRAM_API_KEY"],
-            llm_provider: env_status[llm_env_key],
+            "openai": env_status["OPENAI_API_KEY"],
             "elevenlabs": env_status["ELEVENLABS_API_KEY"],
         },
         "required_env": env_status,
@@ -111,7 +109,7 @@ def build_session_payload(
         "runtime": {
             "transport": "pipecat + liveavatar-lite",
             "stt_provider": "deepgram",
-            "llm_provider": llm_provider,
+            "llm_provider": "openai",
             "tts_provider": "elevenlabs",
             "avatar_provider": "heygen-liveavatar",
             "runner_status": "not_started",

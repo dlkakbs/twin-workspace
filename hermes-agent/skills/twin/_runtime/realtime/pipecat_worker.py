@@ -18,22 +18,11 @@ def _runtime_env() -> dict[str, str]:
     return merged_runtime_env()
 
 
-def _realtime_llm_provider(env: dict[str, str]) -> str:
-    return str(env.get("TWIN_REALTIME_LLM_PROVIDER") or "openai").strip().lower()
-
-
 def _realtime_llm_credentials(env: dict[str, str]) -> tuple[str, str, str]:
-    provider = _realtime_llm_provider(env)
-    if provider == "openai":
-        return (
-            env.get("OPENAI_API_KEY", ""),
-            env.get("OPENAI_BASE_URL") or "https://api.openai.com/v1",
-            env.get("TWIN_OPENAI_REALTIME_MODEL", "gpt-4.1-mini"),
-        )
     return (
-        env.get("KIMI_API_KEY", ""),
-        env.get("KIMI_BASE_URL", "https://api.moonshot.ai/v1"),
-        env.get("TWIN_KIMI_REALTIME_MODEL", env.get("TWIN_KIMI_GENERATION_MODEL", "moonshot-v1-128k")),
+        env.get("OPENAI_API_KEY", ""),
+        env.get("OPENAI_BASE_URL") or "https://api.openai.com/v1",
+        env.get("TWIN_OPENAI_REALTIME_MODEL", "gpt-4.1-mini"),
     )
 
 
@@ -112,24 +101,22 @@ def _build_transport(session_payload: dict[str, Any]):
 
 def build_config(session_payload: dict[str, Any]) -> dict[str, Any]:
     env = _runtime_env()
-    llm_provider = _realtime_llm_provider(env)
     prompt = str(((session_payload.get("compiled_context") or {}).get("prompt") or "")).strip()
     runner_plan = ((session_payload.get("runtime") or {}).get("runner_plan") or {})
     livekit = runner_plan.get("livekit") or {}
-    llm_env_key = "OPENAI_API_KEY" if llm_provider == "openai" else "KIMI_API_KEY"
     return {
         "session_id": session_payload.get("video_session_id"),
         "title": session_payload.get("title"),
         "counterpart_name": session_payload.get("counterpart_name"),
         "stt_provider": "deepgram",
-        "llm_provider": llm_provider,
+        "llm_provider": "openai",
         "tts_provider": "elevenlabs",
         "avatar_provider": "heygen-liveavatar-lite",
         "prompt_preview": prompt[:400],
         "livekit_status": livekit.get("status", "not_configured"),
         "livekit_room_name": livekit.get("room_name"),
         "missing_env": [
-            key for key in ["DEEPGRAM_API_KEY", llm_env_key, "ELEVENLABS_API_KEY", "LIVEAVATAR_API_KEY", "LIVEAVATAR_AVATAR_ID"] if not env.get(key)
+            key for key in ["DEEPGRAM_API_KEY", "OPENAI_API_KEY", "ELEVENLABS_API_KEY", "LIVEAVATAR_API_KEY", "LIVEAVATAR_AVATAR_ID"] if not env.get(key)
         ],
     }
 

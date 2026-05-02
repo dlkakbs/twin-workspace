@@ -140,9 +140,9 @@ executes calls|                       | executes live video/avatar
   | Flow | Required Variables | Notes |
   |---|---|---|
   | Basic workspace / profile / delegations | `TWIN_PROFILE_SLUG` | Core workspace flows can load without every provider enabled |
-  | Content: script/text generation | `KIMI_API_KEY` and/or `OPENAI_API_KEY` | At least one LLM provider is required for generated text flows |
+  | Content: script/text generation | `OPENAI_API_KEY` | OpenAI is required for generated text flows |
   | Content: audio narration | `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | Needed when Twin should generate spoken audio |
-  | Content: avatar video via HeyGen | `KIMI_API_KEY` and/or `OPENAI_API_KEY`, `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID` or `HEYGEN_AVATAR_GROUP_ID`, `HEYGEN_VOICE_ID` | Use when Twin should generate avatar-
+  | Content: avatar video via HeyGen | `OPENAI_API_KEY`, `HEYGEN_API_KEY`, `HEYGEN_AVATAR_ID` or `HEYGEN_AVATAR_GROUP_ID`, `HEYGEN_VOICE_ID` | Use when Twin should generate avatar-
   based video output |
   | Outbound voice calling | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`, `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID`, `ELEVENLABS_PHONE_NUMBER_ID` | Powers the Twin telephony runtime
   |
@@ -272,4 +272,3 @@ executes calls|                       | executes live video/avatar
   - This is not a standalone frontend-only app.
   - The workspace backend depends on the Hermes Twin surface.
   - Start the stack with the Python environment activated so backend and Hermes imports resolve in the same runtime.
-

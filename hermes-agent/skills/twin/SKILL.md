@@ -6,9 +6,9 @@ version: 0.1.0
 author: OpenAI
 license: MIT
 required_environment_variables:
-  - name: KIMI_API_KEY
-    prompt: Enter your Kimi API key
-    help: Get it from https://platform.kimi.ai/
+  - name: OPENAI_API_KEY
+    prompt: Enter your OpenAI API key
+    help: Get it from https://platform.openai.com/
     required_for: style profile extraction and script generation
   - name: ELEVENLABS_API_KEY
     prompt: Enter your ElevenLabs API key
@@ -26,7 +26,7 @@ setup:
   help: Twin is the canonical implementation for the local digital twin workflow.
 metadata:
   hermes:
-    tags: [digital-twin, delegation, voice-delegate, twin, kimi, elevenlabs, heygen]
+    tags: [digital-twin, delegation, voice-delegate, twin, openai, elevenlabs, heygen]
     category: creative
     requires_toolsets: [terminal]
     related_optional_skills: [twin-telephony, twin-realtime]
