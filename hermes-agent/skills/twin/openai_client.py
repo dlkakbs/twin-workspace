@@ -48,10 +48,10 @@ class OpenAITwinClient:
             "presentation": "video",
         }.get(output_format, output_format)
         prompt_file = {
-            "audio": "podcast_script.txt",
+            "audio": "audio_narration.txt",
             "video": "video_script.txt",
-            "script": "social_post.txt",
-        }.get(normalized_format, "podcast_script.txt")
+            "script": "written_script.txt",
+        }.get(normalized_format, "audio_narration.txt")
         response = self.client.chat.completions.create(
             model=self.settings.openai_generation_model,
             temperature=0.7,

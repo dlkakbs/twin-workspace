@@ -1,12 +1,11 @@
 # Twin Workspace Integration Contract
 
-This document defines the intended Hermes-side integration surface for workspace
-or dashboard applications that want to use the Twin system without owning Twin
-domain logic.
+This document describes how workspace or dashboard applications should
+integrate with Twin from Hermes without taking ownership of Twin domain logic.
 
-## Canonical ownership
+## Ownership model
 
-The intended ownership split is:
+The ownership split is:
 
 - `skills.twin`:
   - profile domain
@@ -23,11 +22,10 @@ The intended ownership split is:
   - operator workflows
   - asset browsing
 
-Operational rule:
+Guiding rule:
 
 - if a workflow mutates Twin profile, delegation, content-run, call-log, or
-  realtime session state, the canonical mutation surface should live on the
-  Hermes side
+  realtime session state, that mutation should live on the Hermes side
 - workspace code may present, trigger, or poll those workflows, but should not
   become the source of truth for them
 
@@ -36,7 +34,7 @@ delegation state, realtime session state, or provider runtime behavior.
 
 ## Preferred integration surface
 
-The preferred Hermes-side entrypoint is:
+Use this Hermes-side entrypoint:
 
 - `skills.twin.TwinWorkspaceContract`
 
@@ -58,7 +56,7 @@ contract = TwinWorkspaceContract.from_values(
     project_root=Path("/path/to/hermes-agent"),
     output_root=Path("/path/to/hermes-agent/outputs/twin"),
     env_path=Path.home() / ".hermes" / ".env",
-    profile_slug="dilek",
+    profile_slug="example-user",
 )
 
 workspace_api = contract.make_workspace_api()
@@ -69,7 +67,7 @@ realtime_api = contract.make_realtime_workspace_api(
 ```
 
 This is the preferred path for any external dashboard, control panel, or
-workspace repo that wants to consume Twin from Hermes.
+workspace repository that wants to consume Twin from Hermes.
 
 ## Facades
 
@@ -101,8 +99,8 @@ For detached or cron-safe execution, prefer:
 - `python -m skills.twin.workspace_commands scheduled-call-logger`
 - `python -m skills.twin.workspace_commands scheduled-delegation`
 
-These commands exist so background workflows do not need to import workspace
-backend modules directly.
+These commands let background workflows run without importing workspace backend
+modules directly.
 
 If a workspace needs to schedule, spawn, or recover Twin background work, it
 should prefer this command surface over local backend worker modules.
@@ -114,8 +112,8 @@ Install these optional skills when you need runtime-specific helper scripts:
 - `official/productivity/twin-telephony`
 - `official/creative/twin-realtime`
 
-Their helper scripts expose provider/runtime operations without moving canonical
-Twin domain ownership into the workspace app.
+Their helper scripts expose provider/runtime operations without moving Twin
+domain ownership into the workspace app.
 
 These optional skills are execution surfaces for operators and developers. They
 should wrap Hermes-owned runtime modules rather than redefine Twin domain logic.

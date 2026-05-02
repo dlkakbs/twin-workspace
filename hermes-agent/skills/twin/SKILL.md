@@ -34,43 +34,43 @@ metadata:
 
 # Twin
 
-`Twin` is the canonical package name for the digital twin and delegated-calling skill.
+`Twin` is the canonical skill for creating a local digital twin and running
+delegated voice, video, and content workflows.
 
-You can invoke it as:
+Example commands:
 
 ```bash
 python -m skills.twin setup \
-  --name "Dilek" \
+  --name "Example User" \
   --photo /path/to/photo.jpg \
   --voice /path/to/voice.mp3 \
   --writing-sample /path/to/sample1.md \
   --writing-sample /path/to/sample2.pdf
 
 python -m skills.twin delegate-create \
-  --profile outputs/twin/profiles/dilek/profile.json \
+  --profile outputs/twin/profiles/example-user/profile.json \
   --task-type restaurant_inquiry \
   --counterpart-name "Example Restaurant" \
   --counterpart-phone "+15551234567" \
-  --goal "Hafif yemek seçeneklerini, tahmini teslim süresini ve yaklaşık toplam tutarı öğren."
+  --goal "Ask about lighter menu options, estimated delivery time, and the approximate total price."
 
 python -m skills.twin call-run \
   --delegation /path/to/delegation.json
 ```
 
-Canonical note:
+Preferred command path:
 
 - `skills.twin` is the preferred command path going forward
 
-Workspace integration note:
+Workspace integration:
 
 - The preferred Hermes-side integration contract is `skills.twin.TwinWorkspaceContract`
-- Facades:
-  - `skills.twin.TwinWorkspaceAPI`
-  - `skills.twin.TwinRealtimeWorkspaceAPI`
-- Detached/cron-safe command surface:
-  - `python -m skills.twin.workspace_commands ...`
-- Workspace or dashboard repos should consume Twin through this contract rather
-  than treating frontend or backend app code as the owner
+- Use `skills.twin.TwinWorkspaceAPI` and `skills.twin.TwinRealtimeWorkspaceAPI`
+  as the main workspace-facing facades
+- For detached or cron-safe execution, use:
+  `python -m skills.twin.workspace_commands ...`
+- Workspace or dashboard repos should integrate through this contract rather
+  than owning Twin state directly
 
 Optional runtime skills:
 
@@ -79,14 +79,14 @@ hermes skills install official/productivity/twin-telephony
 hermes skills install official/creative/twin-realtime
 ```
 
-These provide provider/runtime helper scripts while keeping Twin domain
-ownership in `skills.twin`.
+These provide provider/runtime helper scripts while keeping Twin profile,
+delegation, content, and call state owned by `skills.twin`.
 
-Owner split:
+Ownership split:
 
-- `skills.twin` owns Twin profile/delegation/content/call state
+- `skills.twin` owns Twin profile, delegation, content, and call state
 - optional skills expose telephony and realtime execution helpers
-- workspace apps are control surfaces, not canonical domain owners
+- workspace apps act as control surfaces, not canonical domain owners
 
 Reference:
 
