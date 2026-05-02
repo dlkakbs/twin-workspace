@@ -148,17 +148,24 @@ cp hermes-agent/.env.example hermes-agent/.env
 | Realtime avatar / live video sessions | `OPENAI_API_KEY`, `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`, `LIVEAVATAR_API_KEY`, `LIVEAVATAR_AVATAR_ID`, `DEEPGRAM_API_KEY`, `ELEVENLABS_API_KEY` | Powers the Twin realtime runtime |
 | External guest video invites | `TWIN_PUBLIC_BASE_URL` | Must be a public HTTPS URL, not localhost |
 
-### Common Profile-Linked IDs
+### Voice And Avatar IDs
 
-Some provider IDs are typically used both in runtime configuration and in the active Twin profile.
+These IDs do not serve the same purpose.
 
 | Value | Used For |
 |---|---|
-| `ELEVENLABS_VOICE_ID` | Audio/content voice identity |
-| `HEYGEN_AVATAR_ID` | Avatar-based video generation |
-| `HEYGEN_AVATAR_GROUP_ID` | Avatar group selection |
-| `HEYGEN_VOICE_ID` | HeyGen voice selection |
-| `LIVEAVATAR_AVATAR_ID` | Realtime avatar execution |
+| `ELEVENLABS_VOICE_ID` | Twin's canonical speaking voice for audio narration, realtime speech, and telephony |
+| `HEYGEN_VOICE_ID` | HeyGen-specific voice selection for avatar video generation |
+| `HEYGEN_AVATAR_ID` | The HeyGen avatar used for generated videos |
+| `HEYGEN_AVATAR_GROUP_ID` | The HeyGen avatar group associated with that avatar |
+| `LIVEAVATAR_AVATAR_ID` | The avatar used by the realtime LiveAvatar runtime |
+
+Notes:
+
+- `ELEVENLABS_VOICE_ID` is the main speech identity for Twin.
+- `HEYGEN_VOICE_ID` does not replace ElevenLabs voice in telephony or narration flows.
+- `HEYGEN_*` values are specific to HeyGen video generation.
+- `LIVEAVATAR_AVATAR_ID` is only for the realtime avatar runtime.
 
 ## Public Base URL For Video Sessions
 
