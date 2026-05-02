@@ -34,7 +34,7 @@ Things like:
 - handling follow-ups
 - having a video conversation
   
-They require timing, attention, and context. Because of that, they often get delayed, skipped, or handled inefficiently.
+They require timing, attention, and being in the right headspace. Because of that, they often get delayed, skipped, or handled inefficiently.
 
 These interactions are necessary, but they don’t always require your direct involvement.
 
