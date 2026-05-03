@@ -1,10 +1,10 @@
-### Twin Workspace
+## Twin Workspace
 
 Twin Workspace is the control surface for running a real digital twin on top of Hermes.
 
 It lets you create, schedule, and run real-world interactions using your own voice, avatar, and persona. The workspace is where you define intent, review state, and manage execution. Hermes owns the runtime and orchestration underneath.
 
-## What is Twin?
+### What is Twin?
 
 Twin is a programmable identity that can:
 
@@ -15,7 +15,7 @@ Twin is a programmable identity that can:
 
 Everything is modeled as a task and managed through a single workspace.
 
-## Why it exists
+### Why it exists
 
 Many interactions are simple in theory but costly in practice.
 
@@ -37,7 +37,7 @@ Twin is built to take ownership of this layer: taking your intent, and turning i
 
 You define the intent, goal and context once. Twin executes it when time comes.
 
-## Personal vs Assistant Mode
+### Personal vs Assistant Mode
 
 Before using Twin, you need to configure the core identity and communication setup.
 
@@ -68,14 +68,14 @@ In assistant mode, this means you can use:
 
 This is useful when you do not want Twin to sound exactly like you, but still want it to make calls, join video sessions, or handle delegated tasks on your behalf.
 
-## Core idea
+### Core idea
 
 - Hermes is the owner and orchestration layer
 - Twin Workspace is the control surface
 - Twin runtime and execution live inside Hermes
 - profile, delegation, content, call, and session state stay Hermes-owned
 
-## Architecture
+### Architecture
 
 ```text
 +------------------------------------------------------+
