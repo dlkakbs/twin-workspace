@@ -42,6 +42,37 @@ Twin is built to take ownership of this layer: generating what needs to be said,
 
 You define the intent once. Twin executes it.
 
+## Personal vs Assistant Mode
+
+Before using Twin, you need to configure the core identity and communication setup.
+
+This includes:
+
+- setting up a Twilio phone number (either purchasing one or verifying your own number)
+- cloning your voice in ElevenLabs or selecting an existing voice ID
+- creating your own avatar in LiveAvatar or using a different avatar ID
+
+Once configured, you can define how your Twin behaves:
+
+- interaction style (formal, casual, concise, etc.)
+- tone and communication preferences
+- boundaries (what it should or should not say)
+- authority rules (what it can act on autonomously)
+
+Twin can then operate in two distinct modes depending on how you want it to represent you:
+
+- **Personal mode**: Twin uses your cloned voice and LiveAvatar, and speaks as you  
+- **Assistant mode**: Twin represents you while speaking with its own configured identity  
+
+In assistant mode, this means you can use:
+
+- a different ElevenLabs voice
+- a different LiveAvatar
+- a different Twilio phone number
+- a separate assistant persona
+
+This is useful when you do not want Twin to sound exactly like you, but still want it to make calls, join video sessions, or handle delegated tasks on your behalf.
+
 ## Core idea
 
 - Hermes is the owner and orchestration layer
