@@ -26,7 +26,6 @@ Scope:
 - outbound call runtime selection
 - outbound SMS delivery helpers
 - ElevenLabs ConvAI / Twilio integration
-- future Vapi / Bland adapters
 
 Non-scope:
 
