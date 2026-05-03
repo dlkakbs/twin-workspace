@@ -10,16 +10,10 @@ Twin is a programmable identity that can:
 
 - make outbound voice calls
 - host realtime and video sessions
-- generate content across video, audio, and scripts
+- generate content with your voice and avatar
 - execute tasks through a delegation model
 
 Everything is modeled as a task and managed through a single workspace.
-
-Twin is designed to:
-
-- represent you in communication
-- automate recurring real-world interactions
-- maintain a consistent identity across tasks and channels
 
 ## Why it exists
 
@@ -33,14 +27,15 @@ Things like:
 - confirming bookings
 - handling follow-ups
 - joining a video conversation
+- creating videos where you speak on camera
 
 These tasks require timing, attention, and the right headspace. Because of that, they often get delayed, skipped, or handled inefficiently.
 
 They matter, but they do not always require your direct involvement.
 
-Twin is built to take ownership of this layer: generating what needs to be said, scheduling the interaction at the right time, and executing it on your behalf.
+Twin is built to take ownership of this layer: taking your intent, and turning it into communication and content. 
 
-You define the intent once. Twin executes it.
+You define the intent, goal and context once. Twin executes it when time comes.
 
 ## Personal vs Assistant Mode
 
